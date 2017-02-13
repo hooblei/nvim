@@ -3,6 +3,7 @@ func! s:define_plugins()
   " See: https://github.com/junegunn/vim-plug
   "
   " Check out interesting plugs ...
+  " https://github.com/ElmCast/elm-vim or https://github.com/lambdatoast/elm.vim
   " https://github.com/terryma/vim-multiple-cursors
   " https://github.com/benekastah/neomake
   " https://github.com/luochen1990/rainbow
@@ -32,6 +33,7 @@ func! s:define_plugins()
   Plug 'fatih/vim-go', { 'tag': '*' }
   Plug 'editorconfig/editorconfig-vim'
   Plug 'Glench/Vim-Jinja2-Syntax'
+  Plug 'gorodinskiy/vim-coloresque'
   Plug 'groenewege/vim-less'
   Plug 'hylang/vim-hy'
   "Plug 'jceb/vim-orgmode'
