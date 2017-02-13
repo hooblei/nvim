@@ -34,6 +34,7 @@ nmap <leader>lr :noh<CR>:redraw<CR>
 nmap <leader>pp :set paste!<CR>
 nmap <leader>s :set spell!<CR>
 nmap <leader>src :so $MYVIMRC<CR>
+nmap <leader>r :!!<CR>
 
 nmap <silent> <F10> :echo "hi<" . synIDattr(synID(line("."), col("."), 1), "name") . '> trans<' . synIDattr(synID(line("."), col("."), 0),"name") . "> lo<" .  synIDattr(synIDtrans(synID(line("."), col("."), 1)), "name") . ">"<CR>
 
@@ -54,3 +55,9 @@ vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " tag scanner
 "map <silent> <F6>:!ctags -R --exclude=.svn --exclude=.git --exclude=log *<CR>
+
+" neovim terminal
+:tnoremap <Esc> <C-\><C-n>
+:tnoremap <C-h> <C-\><C-n><C-w>h
+:tnoremap <C-l> <C-\><C-n><C-w>l
+ 
