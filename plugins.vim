@@ -4,7 +4,6 @@ func! s:define_plugins()
   "
   " Check out interesting plugs ...
   " https://github.com/terryma/vim-multiple-cursors
-  " https://github.com/benekastah/neomake
   " https://github.com/luochen1990/rainbow
   " https://github.com/junegunn/vim-easy-align
   " https://github.com/junegunn/fzf
@@ -27,16 +26,16 @@ func! s:define_plugins()
   call plug#begin('~/.config/nvim/plugins')
 
   Plug 'airblade/vim-gitgutter'
+  Plug 'benekastah/neomake'
   Plug 'bling/vim-bufferline'
   "Plug 'digitaltoad/vim-pug'
   Plug 'fatih/vim-go', { 'tag': '*' }
   Plug 'editorconfig/editorconfig-vim'
   Plug 'Glench/Vim-Jinja2-Syntax'
   Plug 'groenewege/vim-less'
-  Plug 'hylang/vim-hy'
+  "Plug 'hylang/vim-hy'
   "Plug 'jceb/vim-orgmode'
-  Plug 'jimenezrick/vimerl'
-  Plug 'jmcantrell/vim-virtualenv'
+  Plug 'kassio/neoterm'
   "Plug 'krisajenkins/vim-pipe'
   Plug 'krisajenkins/vim-postgresql-syntax'
   Plug 'leafgarland/typescript-vim'
@@ -48,8 +47,9 @@ func! s:define_plugins()
   Plug 'Raimondi/delimitMate'
   Plug 'rstacruz/sparkup'
   "Plug 'scrooloose/syntastic'
-  Plug 'Shougo/neocomplete.vim'
-  Plug 'Shougo/unite.vim'
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+  "Plug 'Shougo/neocomplete.vim'
+  "Plug 'Shougo/unite.vim'
   "Plug 'sjl/tslime.vim'
   Plug 'sophacles/vim-bundle-mako'
   "Plug 'tommcdo/vim-exchange'
@@ -58,7 +58,14 @@ func! s:define_plugins()
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-speeddating'
   Plug 'tpope/vim-surround'
+  Plug 'vim-erlang/erlang-motions.vim'
+  Plug 'vim-erlang/vim-erlang-compiler'
+  Plug 'vim-erlang/vim-erlang-omnicomplete'
+  Plug 'vim-erlang/vim-erlang-runtime'
+  "Plug 'vim-erlang/vim-erlang-skeletons'
+  "Plug 'vim-erlang/vim-erlang-tags'
   "Plug 'vim-scripts/dbext.vim'
+  Plug 'zchee/deoplete-go', { 'do': 'make' }
 
   call plug#end()
 endfunc
@@ -66,6 +73,9 @@ endfunc
 func! s:configure_plugins()
   " rstacruz/sparkup
   let g:sparkupExecuteMapping = '<c-h>'
+
+  " airblade/vim-gitgutter
+  let g:gitgutter_sign_column_always = 1
 
   " Lokaltog/vim-easymotion
   "   prefix default keybinding
@@ -76,6 +86,12 @@ func! s:configure_plugins()
   let g:acp_enableAtStartup = 0
   let g:neocomplete#enable_at_startup = 1
   let g:NeoComplCache_EnableAtStartup = 1
+
+  " benekastah/neomake
+  "let g:neomake_open_list = 2
+  let g:neomake_verbose = 3
+  let g:neomake_logfile = '/tmp/neomake-error.log'
+  autocmd! BufWritePost,BufEnter *.go Neomake
 
   " fatih/vim-go
   let g:go_fmt_autosave = 0
@@ -104,6 +120,31 @@ func! s:configure_plugins()
   "  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
   "  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
   "endfunction
+
+  " Shougo/deoplete.nvim
+  let g:deoplete#enable_at_startup = 1
+	let g:deoplete#disable_auto_complete = 1
+  "let g:deoplete#enable_smart_case = 1
+	"let g:deoplete#enable_profile = 1
+  "call deoplete#enable_logging('DEBUG', 'deoplete.log')
+  "call deoplete#custom#set('go', 'debug_enabled', 1)
+	"inoremap <silent><expr> <C-p>
+  "    \ pumvisible() ? "\<C-n>" :
+  "    \ deoplete#mappings#manual_complete()
+	inoremap <silent><expr> <TAB>
+				\ pumvisible() ? "\<C-n>" :
+				\ <SID>check_back_space() ? "\<TAB>" :
+				\ deoplete#mappings#manual_complete()
+	function! s:check_back_space() abort "{{{
+		let col = col('.') - 1
+		return !col || getline('.')[col - 1]  =~ '\s'
+	endfunction"}}}
+
+  " zchee/deoplete-go
+  let g:deoplete#sources#go#gocode_binary = $GOPATH . '/bin/gocode'
+	let g:deoplete#sources#go#use_cache = 1
+	let g:deoplete#sources#go#json_directory = '~/.cache/deoplete/go/${GOOS}_${GOARCH}'
+	let g:deoplete#sources#go#package_dot = 1
 
   "" scrooloose/syntastic
   ""let g:syntastic_debug = 0
@@ -137,6 +178,23 @@ func! s:configure_plugins()
   "" vim-slime
   "let g:slime_target = "tmux"
   "let g:slime_paste_file = "$HOME/.slime_paste"
+
+  " kassio/neoterm
+  let g:neoterm_position = 'horizontal'
+  let g:neoterm_automap_keys = ',tt'
+  "nnoremap <silent> <f10> :TREPLSendFile<cr>
+  "nnoremap <silent> <f9> :TREPLSendLine<cr>
+  "vnoremap <silent> <f9> :TREPLSendSelection<cr>
+  " Useful maps
+  " hide/close terminal
+  nnoremap <silent> ,th :call neoterm#close()<cr>
+  " clear terminal
+  nnoremap <silent> ,tl :call neoterm#clear()<cr>
+  " kills the current job (send a <c-c>)
+  nnoremap <silent> ,tc :call neoterm#kill()<cr>
+
+  " Git commands
+  command! -nargs=+ Tg :T git <args>
 endfunc
 
 
@@ -146,8 +204,8 @@ if empty(glob('~/.config/nvim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall | source $MYVIMRC
 endif
 
-call s:configure_plugins()
 call s:define_plugins()
+call s:configure_plugins()
 
 filetype plugin indent on
 
