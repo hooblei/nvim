@@ -44,9 +44,9 @@ set splitbelow splitright
 
 " ⣿ ↪ ¬ ❯ ❮ ⋅
 set listchars+=eol:¬
-set listchars+=extends:❯
+set listchars+=extends:…
 set listchars+=nbsp:⋅
-set listchars+=precedes:❮
+set listchars+=precedes:…
 set listchars+=tab:\|\
 set listchars+=trail:⋅
 
@@ -56,6 +56,8 @@ set lazyredraw
 set autoread
 "set whichwrap+=<,>,h,l
 
+set completeopt=menu,preview,noinsert
+
 set formatprg=par-format
 
 if executable('ag')
@@ -64,6 +66,14 @@ if executable('ag')
 endif
 
 let g:lisp_rainbow = 1
+
+
+" Env
+
+if executable('go') == 1
+	let $GOOS=substitute(call('system', ['go env GOOS']), '\n\+$', '', '')
+	let $GOARCH=substitute(call('system', ['go env GOARCH']), '\n\+$', '', '')
+endif
 
 
 " Resources
