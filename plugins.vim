@@ -56,6 +56,7 @@ func! s:define_plugins()
   Plug 'sophacles/vim-bundle-mako'
   "Plug 'tommcdo/vim-exchange'
   Plug 'tpope/vim-commentary'
+  Plug 'tpope/vim-eunuch'
   Plug 'tpope/vim-markdown'
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-speeddating'
