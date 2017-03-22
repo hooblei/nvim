@@ -32,6 +32,7 @@ func! s:define_plugins()
   "Plug 'digitaltoad/vim-pug'
   Plug 'fatih/vim-go', { 'tag': '*' }
   Plug 'editorconfig/editorconfig-vim'
+  Plug 'elmcast/elm-vim'
   Plug 'Glench/Vim-Jinja2-Syntax'
   Plug 'gorodinskiy/vim-coloresque'
   Plug 'groenewege/vim-less'
